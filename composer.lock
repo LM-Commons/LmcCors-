@@ -255,16 +255,16 @@
         },
         {
             "name": "laminas/laminas-http",
-            "version": "2.19.0",
+            "version": "2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-http.git",
-                "reference": "26dd6d1177e25d970058863c2afed12bb9dbff4d"
+                "reference": "a66bfb65c698aad6ee9f10df42cb5902f2c3dec8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-http/zipball/26dd6d1177e25d970058863c2afed12bb9dbff4d",
-                "reference": "26dd6d1177e25d970058863c2afed12bb9dbff4d",
+                "url": "https://api.github.com/repos/laminas/laminas-http/zipball/a66bfb65c698aad6ee9f10df42cb5902f2c3dec8",
+                "reference": "a66bfb65c698aad6ee9f10df42cb5902f2c3dec8",
                 "shasum": ""
             },
             "require": {
@@ -272,7 +272,7 @@
                 "laminas/laminas-stdlib": "^3.6",
                 "laminas/laminas-uri": "^2.11",
                 "laminas/laminas-validator": "^2.15",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "conflict": {
                 "zendframework/zend-http": "*"
@@ -280,7 +280,7 @@
             "require-dev": {
                 "ext-curl": "*",
                 "laminas/laminas-coding-standard": "~2.4.0",
-                "phpunit/phpunit": "^9.5.25"
+                "phpunit/phpunit": "^9.6.21"
             },
             "suggest": {
                 "paragonie/certainty": "For automated management of cacert.pem"
@@ -316,7 +316,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-11-02T16:27:41+00:00"
+            "time": "2024-10-18T07:35:59+00:00"
         },
         {
             "name": "laminas/laminas-json",
@@ -381,20 +381,20 @@
         },
         {
             "name": "laminas/laminas-loader",
-            "version": "2.10.0",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-loader.git",
-                "reference": "e6fe952304ef40ce45cd814751ab35d42afdad12"
+                "reference": "f2eedd3a6e774d965158fd11946bb1eba72e298c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/e6fe952304ef40ce45cd814751ab35d42afdad12",
-                "reference": "e6fe952304ef40ce45cd814751ab35d42afdad12",
+                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/f2eedd3a6e774d965158fd11946bb1eba72e298c",
+                "reference": "f2eedd3a6e774d965158fd11946bb1eba72e298c",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0"
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "conflict": {
                 "zendframework/zend-loader": "*"
@@ -433,7 +433,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-10-18T09:58:51+00:00"
+            "time": "2024-10-16T09:06:57+00:00"
         },
         {
             "name": "laminas/laminas-modulemanager",
@@ -5369,12 +5369,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
