@@ -167,9 +167,7 @@ class CorsRequestListenerTest extends TestCase
 
     /**
      * Application always triggers `MvcEvent::EVENT_FINISH` and since the `CorsRequestListener` is listening on it, we
-     * should handle the exception aswell.
-     *
-     * @return void
+     * should handle the exception as well
      */
     public function testOnCorsRequestCanHandleInvalidOriginHeaderValue(): void
     {
