@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,9 +21,8 @@
 
 namespace LmcCorsTest\Mvc;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
 use Laminas\EventManager\EventManager;
+use Laminas\EventManager\EventManagerInterface;
 use Laminas\Http\Request as HttpRequest;
 use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\MvcEvent;
@@ -29,50 +31,40 @@ use Laminas\Router\Http\TreeRouteStack;
 use LmcCors\Mvc\CorsRequestListener;
 use LmcCors\Options\CorsOptions;
 use LmcCors\Service\CorsService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Integration tests for {@see \LmcCors\Service\CorsService}
  *
- * @author Michaël Gallego <mic.gallego@gmail.com>
- *
  * @group  Coverage
  */
-#[CoversClass('\LmcCors\Mvc\CorsRequestListener')]
+#[CoversClass(CorsRequestListener::class)]
 class CorsRequestListenerTest extends TestCase
 {
-
-    /**
-     * @var CorsService
-     */
     protected CorsService $corsService;
 
-    /**
-     * @var CorsOptions
-     */
     protected CorsOptions $corsOptions;
 
-    /**
-     * @var CorsRequestListener
-     */
     protected CorsRequestListener $corsListener;
 
     public function setUp(): void
     {
-        $this->corsOptions = new CorsOptions();
-        $this->corsService = new CorsService($this->corsOptions);
+        $this->corsOptions  = new CorsOptions();
+        $this->corsService  = new CorsService($this->corsOptions);
         $this->corsListener = new CorsRequestListener($this->corsService);
     }
 
     public function testAttach()
     {
-        $eventManager = $this->getMockBuilder('Laminas\EventManager\EventManagerInterface')->getMock();
+        $eventManager = $this->getMockBuilder(EventManagerInterface::class)->getMock();
 
         $matcher = $this->exactly(2);
 
         $eventManager
             ->expects($matcher)
             ->method('attach')
-            ->willReturnCallback(function (string $event, callable $callback, int $priority) use ($matcher) {
+            ->willReturnCallback(function (string $event, callable $callback, int $priority) {
                 match ($event) {
                     MvcEvent::EVENT_ROUTE => '',
                     MvcEvent::EVENT_FINISH => '',
@@ -84,7 +76,7 @@ class CorsRequestListenerTest extends TestCase
     public function testReturnNothingForNonCorsRequest()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $response = new HttpResponse();
 
         $mvcEvent
@@ -98,9 +90,9 @@ class CorsRequestListenerTest extends TestCase
     public function testImmediatelyReturnResponseForPreflightCorsRequest()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $response = new HttpResponse();
-        $router = new TreeRouteStack();
+        $router   = new TreeRouteStack();
 
         $request->setMethod('OPTIONS');
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
@@ -111,13 +103,13 @@ class CorsRequestListenerTest extends TestCase
             ->setResponse($response)
             ->setRouter($router);
 
-        $this->assertInstanceOf('Laminas\Http\Response', $this->corsListener->onCorsPreflight($mvcEvent));
+        $this->assertInstanceOf(HttpResponse::class, $this->corsListener->onCorsPreflight($mvcEvent));
     }
 
     public function testReturnNothingForNormalAuthorizedCorsRequest()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $response = new HttpResponse();
 
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
@@ -134,7 +126,7 @@ class CorsRequestListenerTest extends TestCase
     public function testReturnUnauthorizedResponseForNormalUnauthorizedCorsRequest()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $response = new HttpResponse();
 
         $request->getHeaders()->addHeaderLine('Origin', 'http://unauthorized-domain.com');
@@ -155,9 +147,9 @@ class CorsRequestListenerTest extends TestCase
     public function testImmediatelyReturnBadRequestResponseForInvalidOriginHeaderValue()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $response = new HttpResponse();
-        $router = new TreeRouteStack();
+        $router   = new TreeRouteStack();
 
         $request->getHeaders()->addHeaderLine('Origin', 'file:');
 
@@ -177,13 +169,12 @@ class CorsRequestListenerTest extends TestCase
      * Application always triggers `MvcEvent::EVENT_FINISH` and since the `CorsRequestListener` is listening on it, we
      * should handle the exception aswell.
      *
-     *
      * @return void
      */
     public function testOnCorsRequestCanHandleInvalidOriginHeaderValue()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $response = new HttpResponse();
 
         $request->getHeaders()->addHeaderLine('Origin', 'file:');
@@ -195,36 +186,35 @@ class CorsRequestListenerTest extends TestCase
         $this->assertNull($this->corsListener->onCorsRequest($mvcEvent));
     }
 
-
     public function testPreflightWorksWithMethodRoutes()
     {
         $mvcEvent = new MvcEvent();
-        $request = new HttpRequest();
+        $request  = new HttpRequest();
         $request->setUri('/foo');
         $request->setMethod('OPTIONS');
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
         $request->getHeaders()->addHeaderLine('Access-Control-Request-Method', 'GET');
         $response = new HttpResponse();
-        $router = new TreeRouteStack();
+        $router   = new TreeRouteStack();
         $router
             ->addRoutes([
                 'home' => [
-                    'type' => 'literal',
-                    'options' => [
+                    'type'          => 'literal',
+                    'options'       => [
                         'route' => '/foo',
                     ],
                     'may_terminate' => false,
-                    'child_routes' => [
+                    'child_routes'  => [
                         'get' => [
-                            'type' => 'method',
+                            'type'    => 'method',
                             'options' => [
-                                'verb' => 'get',
+                                'verb'     => 'get',
                                 'defaults' => [
                                     CorsOptions::ROUTE_PARAM => [
                                         'allowed_origins' => ['http://example.com'],
                                         'allowed_methods' => ['GET'],
                                     ],
-                                ]
+                                ],
                             ],
                         ],
                     ],

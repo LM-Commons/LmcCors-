@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LmcCors\Exception;
 
 use DomainException;
 
-/**
- * @license MIT
- * @author  Max Bösing <max@boesing.email>
- */
 class InvalidOriginException extends DomainException implements ExceptionInterface
 {
     /**

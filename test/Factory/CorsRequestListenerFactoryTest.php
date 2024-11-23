@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,19 +21,18 @@
 
 namespace LmcCorsTest\Factory;
 
+use LmcCors\Factory\CorsRequestListenerFactory;
 use LmcCors\Mvc\CorsRequestListener;
+use LmcCorsTest\Util\ServiceManagerFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use LmcCorsTest\Util\ServiceManagerFactory;
 
 /**
  * Integration tests for {@see \LmcCors\Service\CorsService}
  *
- * @author Michaël Gallego <mic.gallego@gmail.com>
- *
  * @group Coverage
  */
-#[CoversClass('\LmcCors\Factory\CorsRequestListenerFactory')]
+#[CoversClass(CorsRequestListenerFactory::class)]
 class CorsRequestListenerFactoryTest extends TestCase
 {
     public function testCanCreateCorsRequestListener()

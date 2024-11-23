@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,50 +21,33 @@
 
 namespace LmcCorsTest\Service;
 
-use LmcCors\Exception\DisallowedOriginException;
-use LmcCors\Exception\InvalidOriginException;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
-use Laminas\Http\Response as HttpResponse;
 use Laminas\Http\Request as HttpRequest;
+use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Router\Http\RouteMatch;
+use LmcCors\Exception\DisallowedOriginException;
+use LmcCors\Exception\InvalidOriginException;
 use LmcCors\Options\CorsOptions;
 use LmcCors\Service\CorsService;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Integration tests for {@see \LmcCors\Service\CorsService}
  *
- * @author Florent Blaison <florent.blaison@gmail.com>
- *
  * @group Coverage
  */
-#[CoversClass('\LmcCors\Service\CorsService')]
+#[CoversClass(CorsService::class)]
 class CorsServiceTest extends TestCase
 {
-    /**
-     * @var CorsService
-     */
     protected CorsService $corsService;
 
-    /**
-     * @var HttpResponse
-     */
     protected HttpResponse $response;
 
-    /**
-     * @var HttpRequest
-     */
     protected HttpRequest $request;
 
-    /**
-     * @var MvcEvent
-     */
     protected MvcEvent $event;
 
-    /**
-     * @var CorsOptions
-     */
     protected CorsOptions $corsOptions;
 
     /**
@@ -122,7 +108,7 @@ class CorsServiceTest extends TestCase
 
     public function testProperlyCreatePreflightResponse()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
 
         $response = $this->corsService->createPreflightCorsResponse($request);
@@ -145,7 +131,7 @@ class CorsServiceTest extends TestCase
 
     public function testDoesNotAddAllowCredentialsHeadersIfAsked()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
         $this->corsOptions->setAllowedCredentials(false);
 
@@ -157,7 +143,7 @@ class CorsServiceTest extends TestCase
 
     public function testCanReturnWildCardAllowOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://funny-origin.com');
         $this->corsOptions->setAllowedOrigins(['*']);
 
@@ -169,33 +155,33 @@ class CorsServiceTest extends TestCase
 
     public function testCanReturnWildCardSubDomainAllowOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://subdomain.example.com');
         $this->corsOptions->setAllowedOrigins(['*.example.com']);
 
         $response = $this->corsService->createPreflightCorsResponse($request);
 
-        $headers = $response->getHeaders();
+        $headers     = $response->getHeaders();
         $headerValue = $headers->get('Access-Control-Allow-Origin')->getFieldValue();
         $this->assertEquals('http://subdomain.example.com', $headerValue);
     }
 
     public function testCanReturnWildCardSubDomainWithSchemeAllowOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'https://subdomain.example.com');
         $this->corsOptions->setAllowedOrigins(['https://*.example.com']);
 
         $response = $this->corsService->createPreflightCorsResponse($request);
 
-        $headers = $response->getHeaders();
+        $headers     = $response->getHeaders();
         $headerValue = $headers->get('Access-Control-Allow-Origin')->getFieldValue();
         $this->assertEquals('https://subdomain.example.com', $headerValue);
     }
 
     public function testReturnNullForMissMatchedWildcardSubDomainOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://subdomain.example.org');
         $this->corsOptions->setAllowedOrigins(['*.example.com']);
 
@@ -207,7 +193,7 @@ class CorsServiceTest extends TestCase
 
     public function testReturnNullForRootDomainOnWildcardSubDomainOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
         $this->corsOptions->setAllowedOrigins(['*.example.com']);
 
@@ -219,7 +205,7 @@ class CorsServiceTest extends TestCase
 
     public function testReturnNullForDifferentSchemeOnWildcardSubDomainOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'https://example.com');
         $this->corsOptions->setAllowedOrigins(['http://*.example.com']);
 
@@ -231,7 +217,7 @@ class CorsServiceTest extends TestCase
 
     public function testReturnNullForUnknownOrigin()
     {
-        $request  = new HttpRequest();
+        $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://unauthorized-origin.com');
 
         $response = $this->corsService->createPreflightCorsResponse($request);
@@ -256,9 +242,9 @@ class CorsServiceTest extends TestCase
 
     public function testEnsureNoVaryHeaderWhenAcceptsAnyOrigin()
     {
-        $response = new HttpResponse();
+        $response    = new HttpResponse();
         $corsService = new CorsService(new CorsOptions([
-            'allowed_origins' => ['*']
+            'allowed_origins' => ['*'],
         ]));
 
         $corsService->ensureVaryHeader($response);
@@ -381,7 +367,6 @@ class CorsServiceTest extends TestCase
 
     public function testCanHandleConfiguredRouteMatch()
     {
-
         $routeMatchParameters = [
             CorsOptions::ROUTE_PARAM => [
                 'allowed_origins'     => ['http://example.org'],
@@ -434,11 +419,11 @@ class CorsServiceTest extends TestCase
      */
     public function testCanPopulateNormalCorsRequestWithRouteMatch()
     {
-        $request  = new HttpRequest();
-        $response = new HttpResponse();
+        $request              = new HttpRequest();
+        $response             = new HttpResponse();
         $routeMatchParameters = [
             CorsOptions::ROUTE_PARAM => [
-                'allowed_origins'     => ['http://example.org']
+                'allowed_origins' => ['http://example.org'],
             ],
         ];
 
@@ -447,7 +432,7 @@ class CorsServiceTest extends TestCase
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.org');
 
         $response = $this->corsService->populateCorsResponse($request, $response, $routeMatch);
-        $this->assertInstanceOf(\Laminas\Http\Response::class, $response);
+        $this->assertInstanceOf(HttpResponse::class, $response);
         $this->assertEquals(
             'http://example.org',
             $response->getHeaders()->get('Access-Control-Allow-Origin')->getFieldValue()
@@ -459,11 +444,11 @@ class CorsServiceTest extends TestCase
      */
     public function testCanPopulateNormalCorsRequestWithRouteMatchRewriteException()
     {
-        $request  = new HttpRequest();
-        $response = new HttpResponse();
+        $request              = new HttpRequest();
+        $response             = new HttpResponse();
         $routeMatchParameters = [
             CorsOptions::ROUTE_PARAM => [
-                'allowed_origins'     => ['http://example.org']
+                'allowed_origins' => ['http://example.org'],
             ],
         ];
 

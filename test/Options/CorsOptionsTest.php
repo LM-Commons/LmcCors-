@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,18 +21,16 @@
 
 namespace LmcCorsTest\Options;
 
+use LmcCors\Options\CorsOptions;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use LmcCors\Options\CorsOptions;
 
 /**
  * Integration tests for {@see \LmcCors\Service\CorsService}
  *
- * @author Michaël Gallego <mic.gallego@gmail.com>
- *
  * @group Coverage
  */
-#[CoversClass('\LmcCors\Options\CorsOptions')]
+#[CoversClass(CorsOptions::class)]
 class CorsOptionsTest extends TestCase
 {
     public function testCorsOptionsAreSecuredByDefault()

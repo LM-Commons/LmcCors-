@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,79 +23,55 @@ namespace LmcCors\Options;
 
 use Laminas\Stdlib\AbstractOptions;
 
+use function strtoupper;
+
 /**
  * CorsOptions
- *
- * @license MIT
- * @author  Florent Blaison <florent.blaison@gmail.com>
  */
 class CorsOptions extends AbstractOptions
 {
-    const ROUTE_PARAM = 'cors';
+    public const ROUTE_PARAM = 'cors';
 
     /**
      * Set the list of allowed origins domain with protocol.
-     *
-     * @var array
      */
     protected array $allowedOrigins = [];
 
     /**
      * Set the list of HTTP verbs.
-     *
-     * @var array
      */
     protected array $allowedMethods = [];
 
     /**
      * Set the list of headers.
-     *
-     * @var array
      */
     protected array $allowedHeaders = [];
 
     /**
      * Set the max age of the authorize request in seconds.
-     *
-     * @var int
      */
     protected int $maxAge = 0;
 
     /**
      * Set the list of exposed headers.
-     *
-     * @var array
      */
     protected array $exposedHeaders = [];
 
     /**
      * Allow CORS request with credential.
-     *
-     * @var bool
      */
     protected bool $allowedCredentials = false;
 
-    /**
-     * @param  array $allowedOrigins
-     * @return void
-     */
     public function setAllowedOrigins(array $allowedOrigins): void
     {
         $this->allowedOrigins = $allowedOrigins;
     }
 
-    /**
-     * @return array
-     */
     public function getAllowedOrigins(): array
     {
         return $this->allowedOrigins;
     }
 
-    /**
-     * @param  array $allowedMethods
-     * @return void
-     */
     public function setAllowedMethods(array $allowedMethods): void
     {
         foreach ($allowedMethods as &$allowedMethod) {
@@ -102,77 +81,46 @@ class CorsOptions extends AbstractOptions
         $this->allowedMethods = $allowedMethods;
     }
 
-    /**
-     * @return array
-     */
     public function getAllowedMethods(): array
     {
         return $this->allowedMethods;
     }
 
-    /**
-     * @param  array $allowedHeaders
-     * @return void
-     */
     public function setAllowedHeaders(array $allowedHeaders): void
     {
         $this->allowedHeaders = $allowedHeaders;
     }
 
-    /**
-     * @return array
-     */
     public function getAllowedHeaders(): array
     {
         return $this->allowedHeaders;
     }
 
-    /**
-     * @param int $maxAge
-     * @return void
-     */
     public function setMaxAge(int $maxAge): void
     {
         $this->maxAge = (int) $maxAge;
     }
 
-    /**
-     * @return int
-     */
     public function getMaxAge(): int
     {
         return $this->maxAge;
     }
 
-    /**
-     * @param  array $exposedHeaders
-     * @return void
-     */
     public function setExposedHeaders(array $exposedHeaders): void
     {
         $this->exposedHeaders = $exposedHeaders;
     }
 
-    /**
-     * @return array
-     */
     public function getExposedHeaders(): array
     {
         return $this->exposedHeaders;
     }
 
-    /**
-     * @param bool $allowedCredentials
-     * @return void
-     */
     public function setAllowedCredentials(bool $allowedCredentials): void
     {
         $this->allowedCredentials = (bool) $allowedCredentials;
     }
 
-    /**
-     * @return boolean
-     */
     public function getAllowedCredentials(): bool
     {
         return $this->allowedCredentials;

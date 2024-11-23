@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,8 +23,8 @@ namespace LmcCors\Mvc;
 
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
-use Laminas\Http\Response as HttpResponse;
 use Laminas\Http\Request as HttpRequest;
+use Laminas\Http\Response as HttpResponse;
 use Laminas\Mvc\MvcEvent;
 use LmcCors\Exception\DisallowedOriginException;
 use LmcCors\Exception\InvalidOriginException;
@@ -29,27 +32,16 @@ use LmcCors\Service\CorsService;
 
 /**
  * CorsRequestListener
- *
- * @license MIT
- * @author  Florent Blaison <florent.blaison@gmail.com>
  */
 class CorsRequestListener extends AbstractListenerAggregate
 {
-    /**
-     * @var CorsService
-     */
     protected CorsService $corsService;
 
     /**
      * Whether or not a preflight request was detected
-     *
-     * @var bool
      */
     protected bool $isPreflight = false;
 
-    /**
-     * @param CorsService $corsService
-     */
     public function __construct(CorsService $corsService)
     {
         $this->corsService = $corsService;
@@ -70,7 +62,6 @@ class CorsRequestListener extends AbstractListenerAggregate
     /**
      * Handle a CORS preflight request
      *
-     * @param  MvcEvent          $event
      * @return null|HttpResponse|void
      */
     public function onCorsPreflight(MvcEvent $event)
@@ -78,7 +69,7 @@ class CorsRequestListener extends AbstractListenerAggregate
         // Reset state flag
         $this->isPreflight = false;
 
-        /** @var $request HttpRequest */
+        /** @var HttpRequest $request */
         $request = $event->getRequest();
 
         if (! $request instanceof HttpRequest) {
@@ -116,8 +107,6 @@ class CorsRequestListener extends AbstractListenerAggregate
 
     /**
      * Handle a CORS request (non-preflight, normal CORS request)
-     *
-     * @param MvcEvent $event
      */
     public function onCorsRequest(MvcEvent $event): void
     {
@@ -126,11 +115,10 @@ class CorsRequestListener extends AbstractListenerAggregate
             return;
         }
 
-        /** @var $request HttpRequest */
-        $request  = $event->getRequest();
-        /** @var $response HttpResponse */
+        /** @var HttpRequest $request */
+        $request = $event->getRequest();
+        /** @var HttpResponse $response */
         $response = $event->getResponse();
-
 
         if (! $request instanceof HttpRequest) {
             return;

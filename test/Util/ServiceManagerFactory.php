@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,31 +22,22 @@
 
 namespace LmcCorsTest\Util;
 
-use Laminas\ModuleManager\ModuleManagerInterface;
-use Laminas\ServiceManager\ServiceManager;
 use Laminas\Mvc\Service\ServiceManagerConfig;
+use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Base test case to be used when a new service manager instance is required
  *
- * @license MIT
  * @link    https://github.com/zf-fr/zfr-cors
- * @author  Marco Pivetta <ocramius@gmail.com>
- * @author  Florent Blaison <florent.blaison@gmail.com>
  */
-abstract class ServiceManagerFactory
+class ServiceManagerFactory
 {
-    /**
-     * @var array
-     */
     private static array $config = [];
 
     /**
      * @static
-     * @param array $config
-     * @return void
      */
     public static function setApplicationConfig(array $config): void
     {
@@ -52,7 +46,6 @@ abstract class ServiceManagerFactory
 
     /**
      * @static
-     * @return array
      */
     public static function getApplicationConfig(): array
     {
@@ -60,15 +53,13 @@ abstract class ServiceManagerFactory
     }
 
     /**
-     * @param array|null $config
-     * @return ServiceManager
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public static function getServiceManager(array|null $config = null): ServiceManager
     {
-        $config = $config ?: static::getApplicationConfig();
-        $serviceManager = new ServiceManager();
+        $config               = $config ?: static::getApplicationConfig();
+        $serviceManager       = new ServiceManager();
         $serviceManagerConfig = new ServiceManagerConfig(
             $config['service_manager'] ?? []
         );
@@ -76,7 +67,7 @@ abstract class ServiceManagerFactory
 
         $serviceManager->setService('ApplicationConfig', $config);
 
-        /* @var $moduleManager ModuleManagerInterface */
+        /** @var ModuleManagerInterface $moduleManager */
         $moduleManager = $serviceManager->get('ModuleManager');
 
         $moduleManager->loadModules();

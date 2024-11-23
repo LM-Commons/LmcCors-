@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,25 +21,23 @@
 
 namespace LmcCorsTest\Factory;
 
+use LmcCors\Factory\CorsOptionsFactory;
 use LmcCors\Options\CorsOptions;
+use LmcCorsTest\Util\ServiceManagerFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use LmcCorsTest\Util\ServiceManagerFactory;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Integration tests for {@see \LmcCors\Service\CorsService}
  *
- * @author Michaël Gallego <mic.gallego@gmail.com>
- *
  * @group Coverage
  */
-#[CoversClass('\LmcCors\Factory\CorsOptionsFactory')]
+#[CoversClass(CorsOptionsFactory::class)]
 class CorsOptionsFactoryTest extends TestCase
 {
     /**
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
