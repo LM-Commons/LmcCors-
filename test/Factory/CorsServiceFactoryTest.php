@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(CorsServiceFactory::class)]
 class CorsServiceFactoryTest extends TestCase
 {
-    public function testCanCreateCorsService()
+    public function testCanCreateCorsService(): void
     {
         $serviceManager = ServiceManagerFactory::getServiceManager();
         $service        = $serviceManager->get(CorsService::class);

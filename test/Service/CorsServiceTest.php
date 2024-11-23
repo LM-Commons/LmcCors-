@@ -71,7 +71,7 @@ class CorsServiceTest extends TestCase
         $this->corsService = new CorsService($this->corsOptions);
     }
 
-    public function testCanDetectCorsRequest()
+    public function testCanDetectCorsRequest(): void
     {
         $request = new HttpRequest();
 
@@ -81,7 +81,7 @@ class CorsServiceTest extends TestCase
         $this->assertTrue($this->corsService->isCorsRequest($request));
     }
 
-    public function testIsNotCorsRequestIfNotACrossRequest()
+    public function testIsNotCorsRequestIfNotACrossRequest(): void
     {
         $request = new HttpRequest();
         $request->setUri('http://example.com');
@@ -90,7 +90,7 @@ class CorsServiceTest extends TestCase
         $this->assertFalse($this->corsService->isCorsRequest($request));
     }
 
-    public function testCanDetectPreflightRequest()
+    public function testCanDetectPreflightRequest(): void
     {
         $request = new HttpRequest();
 
@@ -106,7 +106,7 @@ class CorsServiceTest extends TestCase
         $this->assertTrue($this->corsService->isPreflightRequest($request));
     }
 
-    public function testProperlyCreatePreflightResponse()
+    public function testProperlyCreatePreflightResponse(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
@@ -129,7 +129,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('true', $headers->get('Access-Control-Allow-Credentials')->getFieldValue());
     }
 
-    public function testDoesNotAddAllowCredentialsHeadersIfAsked()
+    public function testDoesNotAddAllowCredentialsHeadersIfAsked(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
@@ -141,7 +141,7 @@ class CorsServiceTest extends TestCase
         $this->assertFalse($headers->has('Access-Control-Allow-Credentials'));
     }
 
-    public function testCanReturnWildCardAllowOrigin()
+    public function testCanReturnWildCardAllowOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://funny-origin.com');
@@ -153,7 +153,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('http://funny-origin.com', $headers->get('Access-Control-Allow-Origin')->getFieldValue());
     }
 
-    public function testCanReturnWildCardSubDomainAllowOrigin()
+    public function testCanReturnWildCardSubDomainAllowOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://subdomain.example.com');
@@ -166,7 +166,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('http://subdomain.example.com', $headerValue);
     }
 
-    public function testCanReturnWildCardSubDomainWithSchemeAllowOrigin()
+    public function testCanReturnWildCardSubDomainWithSchemeAllowOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'https://subdomain.example.com');
@@ -179,7 +179,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('https://subdomain.example.com', $headerValue);
     }
 
-    public function testReturnNullForMissMatchedWildcardSubDomainOrigin()
+    public function testReturnNullForMissMatchedWildcardSubDomainOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://subdomain.example.org');
@@ -191,7 +191,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('null', $headers->get('Access-Control-Allow-Origin')->getFieldValue());
     }
 
-    public function testReturnNullForRootDomainOnWildcardSubDomainOrigin()
+    public function testReturnNullForRootDomainOnWildcardSubDomainOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://example.com');
@@ -203,7 +203,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('null', $headers->get('Access-Control-Allow-Origin')->getFieldValue());
     }
 
-    public function testReturnNullForDifferentSchemeOnWildcardSubDomainOrigin()
+    public function testReturnNullForDifferentSchemeOnWildcardSubDomainOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'https://example.com');
@@ -215,7 +215,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('null', $headers->get('Access-Control-Allow-Origin')->getFieldValue());
     }
 
-    public function testReturnNullForUnknownOrigin()
+    public function testReturnNullForUnknownOrigin(): void
     {
         $request = new HttpRequest();
         $request->getHeaders()->addHeaderLine('Origin', 'http://unauthorized-origin.com');
@@ -226,7 +226,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('null', $headers->get('Access-Control-Allow-Origin')->getFieldValue());
     }
 
-    public function testEnsureVaryHeaderForNoOrigin()
+    public function testEnsureVaryHeaderForNoOrigin(): void
     {
         $response = new HttpResponse();
 
@@ -240,7 +240,7 @@ class CorsServiceTest extends TestCase
         $this->assertStringContainsString('Origin', $headers->get('Vary')->getFieldValue());
     }
 
-    public function testEnsureNoVaryHeaderWhenAcceptsAnyOrigin()
+    public function testEnsureNoVaryHeaderWhenAcceptsAnyOrigin(): void
     {
         $response    = new HttpResponse();
         $corsService = new CorsService(new CorsOptions([
@@ -255,7 +255,7 @@ class CorsServiceTest extends TestCase
         $this->assertFalse($headers->get('Vary'));
     }
 
-    public function testCanPopulateNormalCorsRequest()
+    public function testCanPopulateNormalCorsRequest(): void
     {
         $request  = new HttpRequest();
         $response = new HttpResponse();
@@ -270,7 +270,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('Location', $headers->get('Access-Control-Expose-Headers')->getFieldValue());
     }
 
-    public function testRefuseNormalCorsRequestIfUnauthorized()
+    public function testRefuseNormalCorsRequestIfUnauthorized(): void
     {
         $request  = new HttpRequest();
         $response = new HttpResponse();
@@ -283,7 +283,7 @@ class CorsServiceTest extends TestCase
         $this->corsService->populateCorsResponse($request, $response);
     }
 
-    public function testAddVaryHeaderInNormalRequest()
+    public function testAddVaryHeaderInNormalRequest(): void
     {
         $request  = new HttpRequest();
         $response = new HttpResponse();
@@ -296,7 +296,7 @@ class CorsServiceTest extends TestCase
         $this->assertTrue($headers->has('Vary'));
     }
 
-    public function testAppendVaryHeaderInNormalRequest()
+    public function testAppendVaryHeaderInNormalRequest(): void
     {
         $request  = new HttpRequest();
         $response = new HttpResponse();
@@ -311,7 +311,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('Foo, Origin', $headers->get('Vary')->getFieldValue());
     }
 
-    public function testPopulatesAllowCredentialsNormalCorsRequest()
+    public function testPopulatesAllowCredentialsNormalCorsRequest(): void
     {
         $request  = new HttpRequest();
         $response = new HttpResponse();
@@ -321,11 +321,11 @@ class CorsServiceTest extends TestCase
         $this->corsService->populateCorsResponse($request, $response);
 
         $headers = $response->getHeaders();
-
+        $this->assertNotNull($headers);
         $this->assertEquals('true', $headers->get('Access-Control-Allow-Credentials')->getFieldValue());
     }
 
-    public function testCanDetectCorsRequestFromSameHostButDifferentPort()
+    public function testCanDetectCorsRequestFromSameHostButDifferentPort(): void
     {
         $request = new HttpRequest();
         $request->setUri('http://example.com');
@@ -333,7 +333,7 @@ class CorsServiceTest extends TestCase
         $this->assertTrue($this->corsService->isCorsRequest($request));
     }
 
-    public function testCanDetectCorsRequestFromSameHostButDifferentScheme()
+    public function testCanDetectCorsRequestFromSameHostButDifferentScheme(): void
     {
         $request = new HttpRequest();
         $request->setUri('https://example.com');
@@ -341,7 +341,7 @@ class CorsServiceTest extends TestCase
         $this->assertTrue($this->corsService->isCorsRequest($request));
     }
 
-    public function testCanHandleUnconfiguredRouteMatch()
+    public function testCanHandleUnconfiguredRouteMatch(): void
     {
         $routeMatch = new RouteMatch([]);
 
@@ -365,7 +365,7 @@ class CorsServiceTest extends TestCase
         $this->assertEquals('true', $headers->get('Access-Control-Allow-Credentials')->getFieldValue());
     }
 
-    public function testCanHandleConfiguredRouteMatch()
+    public function testCanHandleConfiguredRouteMatch(): void
     {
         $routeMatchParameters = [
             CorsOptions::ROUTE_PARAM => [
@@ -405,7 +405,7 @@ class CorsServiceTest extends TestCase
     /**
      * @see https://github.com/zf-fr/zfr-cors/issues/44
      */
-    public function testDoesNotCrashApplicationOnInvalidOriginValue()
+    public function testDoesNotCrashApplicationOnInvalidOriginValue(): void
     {
         $request = new HttpRequest();
         $request->setUri('https://example.com');
@@ -417,7 +417,7 @@ class CorsServiceTest extends TestCase
     /**
      * @see https://github.com/zf-fr/zfr-cors/issues/57
      */
-    public function testCanPopulateNormalCorsRequestWithRouteMatch()
+    public function testCanPopulateNormalCorsRequestWithRouteMatch(): void
     {
         $request              = new HttpRequest();
         $response             = new HttpResponse();
@@ -442,7 +442,7 @@ class CorsServiceTest extends TestCase
     /**
      * @see https://github.com/zf-fr/zfr-cors/issues/57
      */
-    public function testCanPopulateNormalCorsRequestWithRouteMatchRewriteException()
+    public function testCanPopulateNormalCorsRequestWithRouteMatchRewriteException(): void
     {
         $request              = new HttpRequest();
         $response             = new HttpResponse();

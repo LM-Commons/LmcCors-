@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace LmcCorsTest\Util;
 
+use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
 use Psr\Container\ContainerExceptionInterface;
@@ -58,7 +59,7 @@ class ServiceManagerFactory
      */
     public static function getServiceManager(array|null $config = null): ServiceManager
     {
-        $config               = $config ?: static::getApplicationConfig();
+        $config               = $config !== null ?: static::getApplicationConfig();
         $serviceManager       = new ServiceManager();
         $serviceManagerConfig = new ServiceManagerConfig(
             $config['service_manager'] ?? []

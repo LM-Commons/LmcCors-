@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(CorsRequestListenerFactory::class)]
 class CorsRequestListenerFactoryTest extends TestCase
 {
-    public function testCanCreateCorsRequestListener()
+    public function testCanCreateCorsRequestListener(): void
     {
         $serviceManager = ServiceManagerFactory::getServiceManager();
         $listener       = $serviceManager->get(CorsRequestListener::class);

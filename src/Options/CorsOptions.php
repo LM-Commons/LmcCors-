@@ -27,6 +27,9 @@ use function strtoupper;
 
 /**
  * CorsOptions
+ *
+ * @template TValue
+ * @extends AbstractOptions<TValue>
  */
 class CorsOptions extends AbstractOptions
 {
@@ -118,7 +121,7 @@ class CorsOptions extends AbstractOptions
 
     public function setAllowedCredentials(bool $allowedCredentials): void
     {
-        $this->allowedCredentials = (bool) $allowedCredentials;
+        $this->allowedCredentials = $allowedCredentials;
     }
 
     public function getAllowedCredentials(): bool

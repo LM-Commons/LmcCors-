@@ -24,6 +24,7 @@ namespace LmcCors;
 use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\Feature\BootstrapListenerInterface;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
+use Laminas\Mvc\Application;
 use LmcCors\Mvc\CorsRequestListener;
 
 /**

@@ -55,7 +55,7 @@ class CorsRequestListenerTest extends TestCase
         $this->corsListener = new CorsRequestListener($this->corsService);
     }
 
-    public function testAttach()
+    public function testAttach(): void
     {
         $eventManager = $this->getMockBuilder(EventManagerInterface::class)->getMock();
 
@@ -73,7 +73,7 @@ class CorsRequestListenerTest extends TestCase
         $this->corsListener->attach($eventManager);
     }
 
-    public function testReturnNothingForNonCorsRequest()
+    public function testReturnNothingForNonCorsRequest(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();
@@ -87,7 +87,7 @@ class CorsRequestListenerTest extends TestCase
         $this->assertNull($this->corsListener->onCorsRequest($mvcEvent));
     }
 
-    public function testImmediatelyReturnResponseForPreflightCorsRequest()
+    public function testImmediatelyReturnResponseForPreflightCorsRequest(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();
@@ -106,7 +106,7 @@ class CorsRequestListenerTest extends TestCase
         $this->assertInstanceOf(HttpResponse::class, $this->corsListener->onCorsPreflight($mvcEvent));
     }
 
-    public function testReturnNothingForNormalAuthorizedCorsRequest()
+    public function testReturnNothingForNormalAuthorizedCorsRequest(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();
@@ -123,7 +123,7 @@ class CorsRequestListenerTest extends TestCase
         $this->assertNull($this->corsListener->onCorsRequest($mvcEvent));
     }
 
-    public function testReturnUnauthorizedResponseForNormalUnauthorizedCorsRequest()
+    public function testReturnUnauthorizedResponseForNormalUnauthorizedCorsRequest(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();
@@ -144,7 +144,7 @@ class CorsRequestListenerTest extends TestCase
         $this->assertEquals('', $newResponse->getContent());
     }
 
-    public function testImmediatelyReturnBadRequestResponseForInvalidOriginHeaderValue()
+    public function testImmediatelyReturnBadRequestResponseForInvalidOriginHeaderValue(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();
@@ -171,7 +171,7 @@ class CorsRequestListenerTest extends TestCase
      *
      * @return void
      */
-    public function testOnCorsRequestCanHandleInvalidOriginHeaderValue()
+    public function testOnCorsRequestCanHandleInvalidOriginHeaderValue(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();
@@ -186,7 +186,7 @@ class CorsRequestListenerTest extends TestCase
         $this->assertNull($this->corsListener->onCorsRequest($mvcEvent));
     }
 
-    public function testPreflightWorksWithMethodRoutes()
+    public function testPreflightWorksWithMethodRoutes(): void
     {
         $mvcEvent = new MvcEvent();
         $request  = new HttpRequest();

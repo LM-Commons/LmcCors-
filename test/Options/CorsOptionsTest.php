@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(CorsOptions::class)]
 class CorsOptionsTest extends TestCase
 {
-    public function testCorsOptionsAreSecuredByDefault()
+    public function testCorsOptionsAreSecuredByDefault(): void
     {
         $options = new CorsOptions();
 
@@ -45,7 +45,7 @@ class CorsOptionsTest extends TestCase
         $this->assertFalse($options->getAllowedCredentials(), 'Cookies are not allowed');
     }
 
-    public function testCanModifyOptions()
+    public function testCanModifyOptions(): void
     {
         $options = new CorsOptions();
 
@@ -68,7 +68,7 @@ class CorsOptionsTest extends TestCase
         $this->assertTrue($options->getAllowedCredentials());
     }
 
-    public function testNormalizeHttpMethods()
+    public function testNormalizeHttpMethods(): void
     {
         $options = new CorsOptions();
 
