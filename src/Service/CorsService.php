@@ -131,7 +131,7 @@ class CorsService
      *
      * @return HttpResponse
      */
-    public function createPreflightCorsResponseWithRouteOptions(HttpRequest $request, RouteMatch $routeMatch = null): HttpResponse
+    public function createPreflightCorsResponseWithRouteOptions(HttpRequest $request, RouteMatch|null $routeMatch = null): HttpResponse
     {
         $options = $this->options;
         if ($routeMatch instanceof RouteMatch) {
@@ -149,7 +149,7 @@ class CorsService
      * @return HttpResponse
      * @throws DisallowedOriginException If the origin is not allowed
      */
-    public function populateCorsResponse(HttpRequest $request, HttpResponse $response, RouteMatch $routeMatch = null): HttpResponse
+    public function populateCorsResponse(HttpRequest $request, HttpResponse $response, RouteMatch|null $routeMatch = null): HttpResponse
     {
         if ($routeMatch instanceof RouteMatch) {
             $this->options->setFromArray($routeMatch->getParam(CorsOptions::ROUTE_PARAM) ?: []);

@@ -65,7 +65,7 @@ abstract class ServiceManagerFactory
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public static function getServiceManager(array $config = null): ServiceManager
+    public static function getServiceManager(array|null $config = null): ServiceManager
     {
         $config = $config ?: static::getApplicationConfig();
         $serviceManager = new ServiceManager();
