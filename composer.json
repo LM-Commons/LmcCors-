@@ -41,10 +41,7 @@
         "laminas/laminas-servicemanager": "^2.7.9 || ^3.4.0"
     },
     "require-dev": {
-        "laminas/laminas-i18n": "^2.9",
-        "laminas/laminas-log": "^2.10",
         "laminas/laminas-modulemanager": "^2.7.2",
-        "laminas/laminas-view": "^2.8.1",
         "phpunit/phpunit": "^10.5 || ^11.0",
         "laminas/laminas-coding-standard": "^3.0",
         "vimeo/psalm": "^5.26.0",
