@@ -1,6 +1,5 @@
 # LmcCors
 
-
 ![Build Status](https://github.com/lm-commons/lmccors/actions/workflows/build-test.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/LM-Commons/LmcCors/badge.svg?branch=master)](https://coveralls.io/github/LM-Commons/LmcCors?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/lm-commons/lmc-cors/v)](//packagist.org/packages/lm-commons/lmc-cors)
@@ -45,8 +44,8 @@ With CORS, you can allow your server to reply to such requests.
 
 You can find better documentation on how CORS works on the web:
 
- * [Mozilla documentation about CORS](https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS)
- * [CORS server flowchart](http://www.html5rocks.com/static/images/cors_server_flowchart.png)
+* [Mozilla documentation about CORS](https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS)
+* [CORS server flowchart](http://www.html5rocks.com/static/images/cors_server_flowchart.png)
 
 ### Event registration
 
@@ -57,20 +56,20 @@ of 2. This means that this listener is executed BEFORE the route has been matche
 
 As by default, all the various options are set globally for all routes:
 
-- `allowed_origins`: (array) List of allowed origins. To allow any origin, you can use the wildcard (`*`) character. If
+* `allowed_origins`: (array) List of allowed origins. To allow any origin, you can use the wildcard (`*`) character. If
   multiple origins are specified, LmcCors will automatically check the `"Origin"` header's value, and only return the
-  allowed domain (if any) in the `"Allow-Access-Control-Origin"` response header. To allow any sub-domain, you can prefix 
+  allowed domain (if any) in the `"Allow-Access-Control-Origin"` response header. To allow any sub-domain, you can prefix
   the domain with the wildcard character (i.e. `*.example.com`). Please note that you don't need to
   add your host URI (so if your website is hosted as "example.com", "example.com" is automatically allowed.
-- `allowed_methods`: (array) List of allowed HTTP methods. Those methods will be returned for the preflight request to
+* `allowed_methods`: (array) List of allowed HTTP methods. Those methods will be returned for the preflight request to
   indicate which methods are allowed to the user agent. You can even specify custom HTTP verbs.
-- `allowed_headers`: (array) List of allowed headers that will be returned for the preflight request. This indicates
+* `allowed_headers`: (array) List of allowed headers that will be returned for the preflight request. This indicates
   to the user agent which headers are permitted to be sent when doing the actual request.
-- `max_age`: (int) Maximum age (seconds) the preflight request should be cached by the user agent. This prevents the
+* `max_age`: (int) Maximum age (seconds) the preflight request should be cached by the user agent. This prevents the
   user agent from sending a preflight request for each request.
-- `exposed_headers`: (array) List of response headers that are allowed to be read in the user agent. Please note that
+* `exposed_headers`: (array) List of response headers that are allowed to be read in the user agent. Please note that
   some browsers do not implement this feature correctly.
-- `allowed_credentials`: (boolean) If true, it allows the browser to send cookies along with the request.
+* `allowed_credentials`: (boolean) If true, it allows the browser to send cookies along with the request.
 
 If you want to configure specific routes, you can add `LmcCors\Options\CorsOptions::ROUTE_PARAM` to your route configuration:
 
@@ -178,6 +177,7 @@ testing your API with some Google Chrome extensions), you need to add support fo
 the `UriFactory` config (please [refer to the doc](https://docs.laminas.dev/laminas-uri/usage/#creating-a-new-custom-class-uri)).
 
 ### Example
+
 To register the `chrome-extension` custom scheme in your API, simply add:
 
 ```php
