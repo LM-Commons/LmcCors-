@@ -57,7 +57,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "LmcCorsTest\\": "tests/"
+            "LmcCorsTest\\": "test/"
         }
     },
     "scripts": {
