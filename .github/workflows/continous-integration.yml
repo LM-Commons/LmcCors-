@@ -2,7 +2,11 @@ name: "Continuous Integration"
 
 on:
   pull_request:
+    paths-ignore:
+      - 'docs/**'
   push:
+    paths-ignore:
+      - 'docs/**'
     branches:
     tags:
 
