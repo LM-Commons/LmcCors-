@@ -21,11 +21,11 @@ declare(strict_types=1);
 
 namespace LmcCors\Factory;
 
-use interop\container\containerinterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use LmcCors\Options\CorsOptions;
 use LmcCors\Service\CorsService;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
@@ -38,7 +38,7 @@ class CorsServiceFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(containerinterface $container, $requestedName, ?array $options = null): CorsService
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): CorsService
     {
         /** @var CorsOptions $corsOptions */
         $corsOptions = $container->get(CorsOptions::class);
