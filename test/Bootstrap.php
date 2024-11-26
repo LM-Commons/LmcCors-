@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -16,7 +19,6 @@
  * and is licensed under the MIT license.
  */
 
-use Laminas\Router\Http\TreeRouteStack;
 use LmcCorsTest\Util\ServiceManagerFactory;
 
 ini_set('error_reporting', E_ALL);

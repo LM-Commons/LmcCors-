@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LmcCors;
 
 class ConfigProvider
@@ -8,7 +10,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
-            'lmc_cors' => $this->getModuleConfig(),
+            'lmc_cors'     => $this->getModuleConfig(),
         ];
     }
 
@@ -25,7 +27,6 @@ class ConfigProvider
 
     public function getModuleConfig(): array
     {
-        return [
-        ];
+        return [];
     }
 }

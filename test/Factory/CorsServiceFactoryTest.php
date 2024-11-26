@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,22 +21,21 @@
 
 namespace LmcCorsTest\Factory;
 
+use LmcCors\Factory\CorsServiceFactory;
 use LmcCors\Service\CorsService;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase as TestCase;
 use LmcCorsTest\Util\ServiceManagerFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Integration tests for {@see \LmcCors\Service\CorsService}
  *
- * @author Michaël Gallego <mic.gallego@gmail.com>
- *
  * @group Coverage
  */
-#[CoversClass('\LmcCors\Factory\CorsServiceFactory')]
+#[CoversClass(CorsServiceFactory::class)]
 class CorsServiceFactoryTest extends TestCase
 {
-    public function testCanCreateCorsService()
+    public function testCanCreateCorsService(): void
     {
         $serviceManager = ServiceManagerFactory::getServiceManager();
         $service        = $serviceManager->get(CorsService::class);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LmcCorsTest;
 
 use LmcCors\ConfigProvider;
@@ -10,7 +12,7 @@ class ConfigProviderTest extends TestCase
     public function testProviderExpectedConfiguration()
     {
         $provider = new ConfigProvider();
-        $config = $provider();
+        $config   = $provider();
         $this->assertArrayHasKey('dependencies', $config);
         $this->assertArrayHasKey('lmc_cors', $config);
         $this->assertArrayHasKey('factories', $config['dependencies']);

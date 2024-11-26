@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,23 +29,21 @@ use LmcCors\Mvc\CorsRequestListener;
 
 /**
  * @licence MIT
- * @author  Florent Blaison <florent.blaison@gmail.com>
  */
 class Module implements BootstrapListenerInterface, ConfigProviderInterface
 {
-
     /**
      * {@inheritDoc}
      */
     public function onBootstrap(EventInterface $e): void
     {
-        /* @var $application Application */
-        $application     = $e->getTarget();
-        $serviceManager  = $application->getServiceManager();
-        $eventManager    = $application->getEventManager();
+        /** @var Application $application */
+        $application    = $e->getTarget();
+        $serviceManager = $application->getServiceManager();
+        $eventManager   = $application->getEventManager();
 
         /** @var CorsRequestListener $listener */
-        $listener = $serviceManager->get('LmcCors\Mvc\CorsRequestListener');
+        $listener = $serviceManager->get(CorsRequestListener::class);
         $listener->attach($eventManager);
     }
 
@@ -55,7 +56,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
 
         return [
             'service_manager' => $configProvider->getDependencyConfig(),
-            'lmc_cors' => $configProvider->getModuleConfig(),
+            'lmc_cors'        => $configProvider->getModuleConfig(),
         ];
     }
 }

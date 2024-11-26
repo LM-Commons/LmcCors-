@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,19 +21,24 @@
 
 namespace LmcCorsTest;
 
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceManager;
+use LmcCors\Module;
+use LmcCors\Mvc\CorsRequestListener;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use LmcCors\Module;
+
+use function serialize;
+use function unserialize;
 
 /**
  * Tests for {@see \LmcCors\Module}
  *
- * @license MIT
- * @author  Marco Pivetta <ocramius@gmail.com>
- *
  * @group Coverage
  */
-#[CoversClass('\LmcCors\Module')]
+#[CoversClass(Module::class)]
 class ModuleTest extends TestCase
 {
     public function testGetConfig()
@@ -44,13 +52,13 @@ class ModuleTest extends TestCase
     public function testAssertListenerIsCorrectlyRegistered()
     {
         $module         = new Module();
-        $mvcEvent       = $this->getMockBuilder('Laminas\Mvc\MvcEvent')->getMock();
-        $application    = $this->getMockBuilder('Laminas\Mvc\Application')
+        $mvcEvent       = $this->getMockBuilder(MvcEvent::class)->getMock();
+        $application    = $this->getMockBuilder(Application::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $eventManager   = $this->getMockBuilder('Laminas\EventManager\EventManagerInterface')->getMock();
-        $serviceManager = $this->getMockBuilder('Laminas\ServiceManager\ServiceManager')->getMock();
-        $corsListener   = $this->getMockBuilder('LmcCors\Mvc\CorsRequestListener')
+        $eventManager   = $this->getMockBuilder(EventManagerInterface::class)->getMock();
+        $serviceManager = $this->getMockBuilder(ServiceManager::class)->getMock();
+        $corsListener   = $this->getMockBuilder(CorsRequestListener::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,7 +68,7 @@ class ModuleTest extends TestCase
         $serviceManager
             ->expects($this->any())
             ->method('get')
-            ->with('LmcCors\Mvc\CorsRequestListener')
+            ->with(CorsRequestListener::class)
             ->willReturn($corsListener);
 
         $corsListener->expects($this->once())->method('attach')->with($eventManager);

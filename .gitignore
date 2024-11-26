@@ -7,3 +7,4 @@ build/
 /.idea/
 .phpunit*
 #/composer.lock
+/.phpcs-cache

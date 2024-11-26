@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -18,35 +21,32 @@
 
 namespace LmcCors\Service;
 
+use Laminas\Http\Header;
 //use Laminas\Mvc\Router\Http\RouteMatch as DeprecatedRouteMatch;
 use Laminas\Http\Headers;
+use Laminas\Http\Request as HttpRequest;
+use Laminas\Http\Response as HttpResponse;
 use Laminas\Router\Http\RouteMatch;
-use Laminas\Http\Header;
 use Laminas\Uri\UriFactory;
 use LmcCors\Exception\DisallowedOriginException;
 use LmcCors\Exception\InvalidOriginException;
 use LmcCors\Options\CorsOptions;
-use Laminas\Http\Request as HttpRequest;
-use Laminas\Http\Response as HttpResponse;
+
+use function fnmatch;
+use function implode;
+use function in_array;
+use function sprintf;
+use function strtoupper;
 
 /**
  * Service that offers a simple mechanism to handle CORS requests
  *
  * This service closely follow the specification here: https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS
- *
- * @license MIT
- * @author  Florent Blaison <florent.blaison@gmail.com>
  */
 class CorsService
 {
-    /**
-     * @var CorsOptions
-     */
     protected CorsOptions $options;
 
-    /**
-     * @param CorsOptions $options
-     */
     public function __construct(CorsOptions $options)
     {
         $this->options = $options;
@@ -55,9 +55,6 @@ class CorsService
     /**
      * Check if the HTTP request is a CORS request by checking if the Origin header is present and that the
      * request URI is not the same as the one in the Origin
-     *
-     * @param  HttpRequest $request
-     * @return bool
      */
     public function isCorsRequest(HttpRequest $request): bool
     {
@@ -78,17 +75,13 @@ class CorsService
 
         // According to the spec (http://tools.ietf.org/html/rfc6454#section-4), we should check host, port and scheme
 
-        return (! ($originUri->getHost() === $requestUri->getHost())
+        return ! ($originUri->getHost() === $requestUri->getHost())
             || ! ($originUri->getPort() === $requestUri->getPort())
-            || ! ($originUri->getScheme() === $requestUri->getScheme())
-        );
+            || ! ($originUri->getScheme() === $requestUri->getScheme());
     }
 
     /**
      * Check if the CORS request is a preflight request
-     *
-     * @param  HttpRequest $request
-     * @return bool
      */
     public function isPreflightRequest(HttpRequest $request): bool
     {
@@ -99,9 +92,6 @@ class CorsService
 
     /**
      * Create a preflight response by adding the corresponding headers
-     *
-     * @param  HttpRequest  $request
-     * @return HttpResponse
      */
     public function createPreflightCorsResponse(HttpRequest $request): HttpResponse
     {
@@ -125,14 +115,11 @@ class CorsService
 
     /**
      * Create a preflight response by adding the corresponding headers which are merged with per-route configuration
-     *
-     * @param HttpRequest                          $request
-     * @param RouteMatch|null $routeMatch
-     *
-     * @return HttpResponse
      */
-    public function createPreflightCorsResponseWithRouteOptions(HttpRequest $request, RouteMatch|null $routeMatch = null): HttpResponse
-    {
+    public function createPreflightCorsResponseWithRouteOptions(
+        HttpRequest $request,
+        RouteMatch|null $routeMatch = null
+    ): HttpResponse {
         $options = $this->options;
         if ($routeMatch instanceof RouteMatch) {
             $options->setFromArray($routeMatch->getParam(CorsOptions::ROUTE_PARAM) ?: []);
@@ -143,14 +130,13 @@ class CorsService
     /**
      * Populate a simple CORS response
      *
-     * @param  HttpRequest               $request
-     * @param  HttpResponse              $response
-     * @param RouteMatch|null $routeMatch
-     * @return HttpResponse
-     * @throws DisallowedOriginException If the origin is not allowed
+     * @throws DisallowedOriginException
      */
-    public function populateCorsResponse(HttpRequest $request, HttpResponse $response, RouteMatch|null $routeMatch = null): HttpResponse
-    {
+    public function populateCorsResponse(
+        HttpRequest $request,
+        HttpResponse $response,
+        RouteMatch|null $routeMatch = null
+    ): HttpResponse {
         if ($routeMatch instanceof RouteMatch) {
             $this->options->setFromArray($routeMatch->getParam(CorsOptions::ROUTE_PARAM) ?: []);
         }
@@ -161,7 +147,7 @@ class CorsService
         // a simple request, it is useless to continue the processing as it will be refused
         // by the browser anyway, so we throw an exception
         if ($origin === 'null') {
-            $origin = $request->getHeader('Origin');
+            $origin       = $request->getHeader('Origin');
             $originHeader = $origin ? $origin->getFieldValue() : '';
             throw new DisallowedOriginException(
                 sprintf(
@@ -193,8 +179,6 @@ class CorsService
      * value are wildcard ("*"), an exact domain or a null string.
      *
      * @link http://www.w3.org/TR/cors/#access-control-allow-origin-response-header
-     * @param  HttpRequest $request
-     * @return string
      */
     protected function getAllowedOriginValue(HttpRequest $request): string
     {
@@ -220,10 +204,7 @@ class CorsService
     /**
      * Ensure that the Vary header is set.
      *
-     *
      * @link http://www.w3.org/TR/cors/#resource-implementation
-     * @param HttpResponse $response
-     * @return Headers
      */
     public function ensureVaryHeader(HttpResponse $response): Headers
     {
