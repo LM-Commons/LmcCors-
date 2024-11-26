@@ -79,31 +79,22 @@ themeConfig:
                 position: 'left',
                 label: 'Documentation',
             },
-            {to: '/blog', label: 'Blog', position: 'left'},
                 {
                     href: 'https://lm-commons.github.io',
                     label: 'LM-Commons',
                     position: 'right',
-            },
+                },
             {
                 href: 'https://github.com/lm-commons/lmccors',
-                label: 'GitHub',
+//                label: 'GitHub',
                 position: 'right',
+                className: 'header-github-link',
             },
             ],
         },
         footer: {
             style: 'dark',
             links: [
-            {
-                title: 'Docs',
-                items: [
-                {
-                    label: 'Documentation',
-                    to: '/docs/introduction',
-                },
-                ],
-            },
             {
                 title: 'Community',
                 items: [
@@ -116,10 +107,6 @@ themeConfig:
             {
                 title: 'More',
                 items: [
-                {
-                    label: 'Blog',
-                    to: '/blog',
-                },
                 {
                     label: 'GitHub',
                     href: 'https://github.com/lm-commons/lmccors',
